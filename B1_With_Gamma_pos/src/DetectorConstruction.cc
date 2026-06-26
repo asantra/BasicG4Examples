@@ -80,7 +80,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                                      0,  // copy number
                                      checkOverlaps);  // overlaps checking
 
-  /*
+  
   G4Material* hdpe_mat = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
 
   G4double hdpeOuter_Z = 2.1 * m;
@@ -118,7 +118,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                     0,
                     checkOverlaps);
 
-  */
+  
 
   G4Material* Inner_mat = nist -> FindOrBuildMaterial("G4_AIR");
 
@@ -127,22 +127,22 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   auto InnerBox = new G4Box("Inner_box", 0.5 * inner_XY, 0.5 * inner_XY, 0.5 * inner_Z);
   auto logicInnerBox = new G4LogicalVolume(InnerBox,Inner_mat,"Inner_box");
 
-  new G4PVPlacement(nullptr,
-                    G4ThreeVector(),
-                    logicInnerBox,
-                    "Inner_box",
-                    logicWorld,
-                    false,
-                    0,
-                    checkOverlaps);
   // new G4PVPlacement(nullptr,
   //                   G4ThreeVector(),
   //                   logicInnerBox,
   //                   "Inner_box",
-  //                   logicOuterBox,
+  //                   logicWorld,
   //                   false,
   //                   0,
   //                   checkOverlaps);
+  new G4PVPlacement(nullptr,
+                    G4ThreeVector(),
+                    logicInnerBox,
+                    "Inner_box",
+                    logicOuterBox,
+                    false,
+                    0,
+                    checkOverlaps);
 
 
 
