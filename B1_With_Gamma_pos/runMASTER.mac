@@ -22,8 +22,8 @@
 #/gun/particle gamma
 #/gun/energy 6 MeV
 #
-/myapp/eventID EEEEE
-/run/beamOn 15
+/myapp/eventID SSSSS
+/run/beamOn BBBBB
 # 
 # proton 210 MeV to the direction (0.,0.,1.)
 #
