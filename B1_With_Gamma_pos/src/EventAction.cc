@@ -109,7 +109,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
 
   }
 */
-  G4cout << "From EventAction::EndOfEventAction" <<G4endl;
+  
   auto* generator =
     static_cast<const B1::PrimaryGeneratorAction*>(
         G4RunManager::GetRunManager()->GetUserPrimaryGeneratorAction());
