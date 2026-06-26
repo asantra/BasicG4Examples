@@ -85,7 +85,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
     long long rootEntry = info->GetRootEntry();
 
-    G4cout << "From SteppingAction::UserSteppingAction ---> Geant4 Event ID: " << eventID << ", Root Entry: " << rootEntry << G4endl;
+    // G4cout << "From SteppingAction::UserSteppingAction ---> Geant4 Event ID: " << eventID << ", Root Entry: " << rootEntry << G4endl;
 
 
     if(preVol && postVol)

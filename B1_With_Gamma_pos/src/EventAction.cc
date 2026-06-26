@@ -121,7 +121,7 @@ void EventAction::EndOfEventAction(const G4Event* event)
    long long rootEntry = info->GetRootEntry();
 
   G4int eventID = event->GetEventID();
-  G4cout << "From EventAction::EndOfEventAction ---> Geant4 Event ID: " << eventID << ", Root Entry: " << rootEntry << G4endl;
+  // G4cout << "From EventAction::EndOfEventAction ---> Geant4 Event ID: " << eventID << ", Root Entry: " << rootEntry << G4endl;
 
   
 
