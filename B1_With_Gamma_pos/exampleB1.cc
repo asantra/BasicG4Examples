@@ -83,7 +83,7 @@ int main(int argc, char** argv)
 
 
   TFile f("/home/arka.santra/ForSnehanjana/GammaSpectrum.root");
-  // TFile f("/home/arka.santra/ForSnehanjana/GammaSpectrum.root");
+  // TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/GammaSpectrum.root");
   TH1D* h = (TH1D*)f.Get("hGamma");
   std::vector<double> E, CDF;
   double sum = 0.0;

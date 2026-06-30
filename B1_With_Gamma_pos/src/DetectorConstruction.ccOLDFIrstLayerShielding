@@ -46,6 +46,8 @@
 namespace B1
 {
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
 G4VPhysicalVolume* DetectorConstruction::Construct()
 {
 
@@ -54,7 +56,9 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
   G4bool checkOverlaps = true;
 
+  //
   // World
+  //
   G4double world_sizeXY = 8 * m;
   G4double world_sizeZ = 10 * m;
   G4Material* world_mat = nist->FindOrBuildMaterial("G4_AIR");
@@ -76,12 +80,16 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
                                      0,  // copy number
                                      checkOverlaps);  // overlaps checking
 
-  // Outer HDPE shield
+  
   G4Material* hdpe_mat = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
+
   G4double hdpeOuter_Z = 2.1 * m;
   G4double hdpeOuter_XY = 1.9* m;
+
+
   auto HdpeBox = new G4Box("HDPE_box", 0.5 * hdpeOuter_XY, 0.5 * hdpeOuter_XY, 0.5 * hdpeOuter_Z);
   auto logicHdpeBox = new G4LogicalVolume(HdpeBox,hdpe_mat,"HDPE_box");
+
   new G4PVPlacement(nullptr,
                     G4ThreeVector(),
                     logicHdpeBox,
@@ -93,70 +101,50 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 
 
 
-  // Lead shield
-  G4Material* lead_mat = nist -> FindOrBuildMaterial("G4_Pb");
-  G4double leadOuter_Z = 1.7 * m;
-  G4double leadOuter_XY = 1.5 * m;
-  auto LeadBox = new G4Box("LEAD_box", 0.5 * leadOuter_XY, 0.5 * leadOuter_XY, 0.5 * leadOuter_Z);
-  auto logicLeadBox = new G4LogicalVolume(LeadBox,lead_mat,"LEAD_box");
+  G4Material* Outer_mat = nist -> FindOrBuildMaterial("G4_Pb");
+
+  G4double outer_Z = 1.7 * m;
+  G4double outer_XY = 1.5 * m;
+
+  auto OuterBox = new G4Box("Outer_box", 0.5 * outer_XY, 0.5 * outer_XY, 0.5 * outer_Z);
+  auto logicOuterBox = new G4LogicalVolume(OuterBox,Outer_mat,"Outer_box");
+
   new G4PVPlacement(nullptr,
                     G4ThreeVector(),
-                    logicLeadBox,
-                    "LEAD_box",
+                    logicOuterBox,
+                    "Outer_box",
                     logicHdpeBox,
                     false,
                     0,
                     checkOverlaps);
 
+  
 
-  //Copper Shield
-  G4Material* copper_mat = nist ->FindOrBuildMaterial("G4_Cu");
-  G4double copperOuter_XY = 0.9 * m;
-  G4double copperOuter_Z = 1.1 * m;
-  auto CopperBox = new G4Box("COPPER_box", 0.5 * copperOuter_XY, 0.5 * copperOuter_XY, 0.5 * copperOuter_Z );
-  auto logicCopperBox = new G4LogicalVolume(CopperBox,copper_mat,"COPPER_box");
-  new G4PVPlacement(nullptr,
-                    G4ThreeVector(),
-                    logicCopperBox,
-                    "COPPER_box",
-                    logicLeadBox,
-                    false,
-                    0,
-                    checkOverlaps);
-
-
-  // Internal polyethylene shield
-  G4Material* poly_mat = nist->FindOrBuildMaterial("G4_POLYETHYLENE");
-  G4double polyOuter_Z = 0.8 * m;
-  G4double polyOuter_XY = 0.6 * m;
-  auto PolyBox = new G4Box("POLY_box", 0.5 * polyOuter_XY, 0.5 * polyOuter_XY, 0.5 * polyOuter_Z);
-  auto logicPolyBox = new G4LogicalVolume(PolyBox,poly_mat,"POLY_box");
-  new G4PVPlacement(nullptr,
-                    G4ThreeVector(),
-                    logicPolyBox,
-                    "POLY_box",
-                    logicCopperBox,
-                    false,
-                    0,
-                    checkOverlaps);
-
-
-  //Inner dimension of box
   G4Material* Inner_mat = nist -> FindOrBuildMaterial("G4_AIR");
-  G4double inner_XY = 0.52 * m;
-  G4double inner_Z = 0.72 * m;
+
+  G4double inner_XY = 0.9 * m;
+  G4double inner_Z = 1.1 * m;
   auto InnerBox = new G4Box("Inner_box", 0.5 * inner_XY, 0.5 * inner_XY, 0.5 * inner_Z);
   auto logicInnerBox = new G4LogicalVolume(InnerBox,Inner_mat,"Inner_box");
+
+  // new G4PVPlacement(nullptr,
+  //                   G4ThreeVector(),
+  //                   logicInnerBox,
+  //                   "Inner_box",
+  //                   logicWorld,
+  //                   false,
+  //                   0,
+  //                   checkOverlaps);
   new G4PVPlacement(nullptr,
                     G4ThreeVector(),
                     logicInnerBox,
                     "Inner_box",
-                    logicPolyBox,
+                    logicOuterBox,
                     false,
                     0,
                     checkOverlaps);
 
-  //Detector
+
 
   G4double rmin = 0.0 * m;
   G4double rmax = 0.25 * m;
@@ -188,5 +176,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 }
 
 
+
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 }  // namespace B1
