@@ -66,6 +66,34 @@ namespace B1
 
     fMessenger = new PrimaryGeneratorMessenger(this);
 
+    //fFile = TFile::Open("/home/snehanjana-mitra/Downloads/TotalNeutronFlux_815m.root");
+
+
+    //h = (TH1D*)fFile->Get("histTotalNeutronFlux");
+
+
+    //fFile->Close();
+/*
+    double sum = 0.0;
+
+    for (int i = 1; i <= h->GetNbinsX(); i++)
+    {
+      double w = h->GetBinContent(i);
+      if (w <= 0)
+        continue;
+      E.push_back(h->GetBinCenter(i));
+
+      sum += w;
+
+      CDF.push_back(sum);
+    }
+
+
+    for (auto &x : CDF)
+    {
+      x /= sum;
+    }
+*/
 }
 
 
@@ -75,12 +103,11 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 {
   //delete fParticleGun;
   delete fGammaGun;
-  delete fMessenger;
   //delete fFile;
+  delete fMessenger;
 
   //delete fNeutronGun;
 }
-
 
 void PrimaryGeneratorAction::SetStartEventID(long long id)
 {
@@ -96,7 +123,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   // In order to avoid dependence of PrimaryGeneratorAction
   // on DetectorConstruction class we get Envelope volume
   // from G4LogicalVolumeStore.
-
 
 
   G4double costheta1 = 2.0 * G4UniformRand() - 1.0;
@@ -121,7 +147,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 
   event->SetUserInformation(info);
 
-//------------------------------------------
+
+
 
   //fParticleGun->SetParticlePosition(G4ThreeVector(1.5*x1*m,1.5*y1*m,1.5*z1*m)); //since body diagonal of the outermost box is 2.08m
 
@@ -131,6 +158,57 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   G4ThreeVector pos1(2.0*x1*m,2.0*y1*m,2.0*z1*m);
 
   G4ThreeVector dir1(-x1,-y1,-z1);
+
+
+/*
+  G4double costheta2 = 2.0 * G4UniformRand() - 1.0;
+  G4double theta2 = std::acos(costheta2);
+  G4double sintheta2 = std::sin(theta2);
+  G4double phi2 = 2* CLHEP::pi* G4UniformRand();
+  G4double x2 = sintheta2 * std::cos(phi2);
+  G4double y2 = sintheta2 * std::sin(phi2);
+  G4double z2 = costheta2;
+
+
+
+
+
+  G4ThreeVector pos2(1.5*x2*m,1.5*y2*m,1.5*z2*m);
+
+  G4ThreeVector dir2(-x2,-y2,-z2);
+
+*/
+
+
+
+
+/*
+  G4double costheta = 2.0 * G4UniformRand() - 1.0;
+
+  G4double theta2 = CLHEP::pi+std::acos(costheta);
+  G4double costheta2 = std::cos(theta2);
+  G4double sintheta2 = std::sin(theta2);
+  G4double phi2 = 2* CLHEP::pi* G4UniformRand();
+  G4double x2 = sintheta2 * std::cos(phi2);
+  G4double y2 = sintheta2 * std::sin(phi2);
+  G4double z2 = costheta2;
+  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(x2, y2, z2));
+*/
+
+  //G4double Emin = 3.01*MeV;
+  //G4double Emax = 4.6*MeV;
+
+  //G4double gammaEnergy = Emin + (Emax - Emin)*G4UniformRand();
+
+  //G4double neutronEnergy = h->GetRandom() * MeV;
+/*
+  double r = G4UniformRand();
+  int bin = 0;
+
+  while (r > CDF[bin])
+    bin++;
+  G4double neutronEnergy = E[bin] * MeV;
+*/
 
 
   double r = G4UniformRand();
@@ -143,6 +221,16 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 
   double gammaEnergy = E[idx];
 
+/*
+  G4double mean = (Emin + Emax)/2.0;
+  G4double sigma = (Emax-Emin)/6.0;
+  G4double energy ;
+  do {
+    energy = G4RandGauss::shoot(mean,sigma);
+  } while (energy<Emin || energy > Emax);
+
+*/
+
 
 
   fGammaGun->SetParticlePosition(pos1);
@@ -151,6 +239,17 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 
   fGammaGun->GeneratePrimaryVertex(event);
 
+
+  //fNeutronGun->SetParticlePosition(pos2);
+  //fNeutronGun->SetParticleMomentumDirection(dir2);
+  //fNeutronGun->SetParticleEnergy(neutronEnergy);
+
+  //fNeutronGun->GeneratePrimaryVertex(event);
+
+  //fParticleGun->SetParticleEnergy(energy);
+
+
+  //fParticleGun->GeneratePrimaryVertex(event);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
