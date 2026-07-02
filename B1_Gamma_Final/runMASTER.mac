@@ -22,7 +22,7 @@
 #/gun/particle gamma
 #/gun/energy 6 MeV
 #
-/myapp/startEventID SSSSS
+/myapp/startEventID NNNNN
 /run/beamOn BBBBB
 
 # 
