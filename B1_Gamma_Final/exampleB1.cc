@@ -79,13 +79,14 @@ int main(int argc, char** argv)
   // User action initialization
   //runManager->SetUserInitialization(new ActionInitialization());
 
-  // TFile f("/home/arka.santra/ForSnehanjana/GammaSpectrum.root");
   // Gamma spectrum
+  // TFile f("/home/arka.santra/ForSnehanjana/GammaSpectrum.root");
   // TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/GammaSpectrum.root");
   // TH1D* h = (TH1D*)f.Get("hGamma");
 
   // neutron spectrum
-  TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/TotalNeutronFlux_815m.root");
+  TFile f("/home/arka.santra/ForSnehanjana/TotalNeutronFlux_815m.root");
+  // TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/TotalNeutronFlux_815m.root");
   TH1D* h = (TH1D*)f.Get("histTotalNeutronFlux");
   
   std::vector<double> E, CDF;
