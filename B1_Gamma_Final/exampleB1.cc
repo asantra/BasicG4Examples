@@ -29,6 +29,7 @@
 #include "ActionInitialization.hh"
 #include "DetectorConstruction.hh"
 #include "QBBC.hh"
+#include "Shielding.hh"
 
 #include "G4RunManagerFactory.hh"
 #include "G4SteppingVerbose.hh"
@@ -71,8 +72,12 @@ int main(int argc, char** argv)
   //runManager->SetNumberOfThreads(1);
   runManager->SetUserInitialization(new DetectorConstruction());
 
-  // Physics list
-  auto physicsList = new QBBC;
+  // Physics list // gamma
+  // auto physicsList = new QBBC;
+  // physicsList->SetVerboseLevel(1);
+  // runManager->SetUserInitialization(physicsList);
+  // Physics list // neutron
+  auto physicsList = new Shielding;
   physicsList->SetVerboseLevel(1);
   runManager->SetUserInitialization(physicsList);
 
