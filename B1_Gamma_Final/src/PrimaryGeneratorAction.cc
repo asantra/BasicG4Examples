@@ -60,8 +60,8 @@ namespace B1
 
 
     auto particleTable = G4ParticleTable::GetParticleTable();
-    // fGammaGun->SetParticleDefinition(particleTable->FindParticle("gamma"));
-    fGammaGun->SetParticleDefinition(particleTable->FindParticle("neutron"));
+    fGammaGun->SetParticleDefinition(particleTable->FindParticle("gamma"));
+    // fGammaGun->SetParticleDefinition(particleTable->FindParticle("neutron"));
 
 
     fStartEventID = 0;
