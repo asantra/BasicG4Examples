@@ -164,6 +164,17 @@ RunAction::RunAction()
 
   analysisManager->FinishNtuple();
 
+
+  analysisManager->CreateNtuple("PrimaryParticles","Primary particles generated");
+  analysisManager->CreateNtupleDColumn("eventID");
+  analysisManager->CreateNtupleIColumn("pdgID");
+  analysisManager->CreateNtupleDColumn("Energy");
+  analysisManager->CreateNtupleDColumn("xDir");
+  analysisManager->CreateNtupleDColumn("yDir");
+  analysisManager->CreateNtupleDColumn("zDir"); 
+
+  analysisManager->FinishNtuple();
+
 }
 
 

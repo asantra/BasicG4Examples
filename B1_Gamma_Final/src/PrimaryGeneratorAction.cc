@@ -39,6 +39,7 @@
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
 #include "G4Event.hh"
+#include "G4AnalysisManager.hh"
 #include <cmath>
 #include <algorithm>
 
@@ -60,8 +61,11 @@ namespace B1
 
 
     auto particleTable = G4ParticleTable::GetParticleTable();
+
     fGammaGun->SetParticleDefinition(particleTable->FindParticle("gamma"));
+    
     // fGammaGun->SetParticleDefinition(particleTable->FindParticle("neutron"));
+    // G4int myPDG = 2212;
 
 
     fStartEventID = 0;
@@ -238,8 +242,22 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   fGammaGun->SetParticlePosition(pos1);
   fGammaGun->SetParticleMomentumDirection(dir1);
   fGammaGun->SetParticleEnergy(gammaEnergy * keV);
+  // fGammaGun->SetParticleEnergy(500 * keV);
 
   fGammaGun->GeneratePrimaryVertex(event);
+
+  
+   auto analysisManager =
+        G4AnalysisManager::Instance();
+      
+  G4int myPDG = 22;
+  analysisManager->FillNtupleDColumn(6, 0, rootEntry);
+  analysisManager->FillNtupleIColumn(6, 1, myPDG);
+  analysisManager->FillNtupleDColumn(6, 2, gammaEnergy * keV);
+  analysisManager->FillNtupleDColumn(6, 3, -x1);
+  analysisManager->FillNtupleDColumn(6, 4, -y1);
+  analysisManager->FillNtupleDColumn(6, 5, -z1);
+  analysisManager->AddNtupleRow(6);
 
 
   //fNeutronGun->SetParticlePosition(pos2);
