@@ -73,26 +73,31 @@ int main(int argc, char** argv)
   runManager->SetUserInitialization(new DetectorConstruction());
 
   // Physics list // gamma
-  // auto physicsList = new QBBC;
-  // physicsList->SetVerboseLevel(1);
-  // runManager->SetUserInitialization(physicsList);
-  // Physics list // neutron
-  auto physicsList = new Shielding;
+  auto physicsList = new QBBC;
   physicsList->SetVerboseLevel(1);
   runManager->SetUserInitialization(physicsList);
+  // Physics list // neutron
+  // auto physicsList = new Shielding;
+  // physicsList->SetVerboseLevel(1);
+  // runManager->SetUserInitialization(physicsList);
 
   // User action initialization
   //runManager->SetUserInitialization(new ActionInitialization());
 
-  // Gamma spectrum
+  // Gamma spectrum, OLD
   // TFile f("/home/arka.santra/ForSnehanjana/GammaSpectrum.root");
   // TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/GammaSpectrum.root");
   // TH1D* h = (TH1D*)f.Get("hGamma");
 
+  // Gamma spectrum, NEW
+  TFile f("/home/arka.santra/ForSnehanjana/TestSampling.root");
+  // TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/TestSampling.root");
+  TH1D* h = (TH1D*)f.Get("hTest");
+
   // neutron spectrum
-  TFile f("/home/arka.santra/ForSnehanjana/TotalNeutronFlux_815m.root");
-  // TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/TotalNeutronFlux_815m.root");
-  TH1D* h = (TH1D*)f.Get("histTotalNeutronFlux");
+  // TFile f("/home/arka.santra/ForSnehanjana/TotalNeutronFlux_815m.root");
+  // // TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/TotalNeutronFlux_815m.root");
+  // TH1D* h = (TH1D*)f.Get("histTotalNeutronFlux");
   
   std::vector<double> E, CDF;
   double sum = 0.0;
