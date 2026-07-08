@@ -169,9 +169,9 @@ RunAction::RunAction()
   analysisManager->CreateNtupleDColumn("eventID");
   analysisManager->CreateNtupleIColumn("pdgID");
   analysisManager->CreateNtupleDColumn("Energy");
-  analysisManager->CreateNtupleIColumn("xDir");
-  analysisManager->CreateNtupleIColumn("yDir");
-  analysisManager->CreateNtupleIColumn("zDir"); 
+  analysisManager->CreateNtupleDColumn("xDir");
+  analysisManager->CreateNtupleDColumn("yDir");
+  analysisManager->CreateNtupleDColumn("zDir"); 
 
   analysisManager->FinishNtuple();
 
