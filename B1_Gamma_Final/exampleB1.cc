@@ -73,13 +73,13 @@ int main(int argc, char** argv)
   runManager->SetUserInitialization(new DetectorConstruction());
 
   // Physics list // gamma
-  auto physicsList = new QBBC;
-  physicsList->SetVerboseLevel(1);
-  runManager->SetUserInitialization(physicsList);
-  // Physics list // neutron
-  // auto physicsList = new Shielding;
+  // auto physicsList = new QBBC;
   // physicsList->SetVerboseLevel(1);
   // runManager->SetUserInitialization(physicsList);
+  // Physics list // neutron
+  auto physicsList = new Shielding;
+  physicsList->SetVerboseLevel(1);
+  runManager->SetUserInitialization(physicsList);
 
   // User action initialization
   //runManager->SetUserInitialization(new ActionInitialization());
