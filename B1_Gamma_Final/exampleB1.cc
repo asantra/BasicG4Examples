@@ -90,8 +90,8 @@ int main(int argc, char** argv)
   // TH1D* h = (TH1D*)f.Get("hGamma");
 
   // Gamma spectrum, NEW
-  TFile f("/home/arka.santra/ForSnehanjana/TestSampling.root");
-  // TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/TestSampling.root");
+  // TFile f("/home/arka.santra/ForSnehanjana/TestSampling.root");
+  TFile f("/Users/arkasantra/geant4-11.4.1/examples/basic/B1_With_Gamma_pos/TestSampling.root");
   TH1D* h = (TH1D*)f.Get("hTest");
 
   // neutron spectrum
