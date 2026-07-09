@@ -241,7 +241,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
 
   fGammaGun->SetParticlePosition(pos1);
   fGammaGun->SetParticleMomentumDirection(dir1);
-  fGammaGun->SetParticleEnergy(gammaEnergy * keV);
+  fGammaGun->SetParticleEnergy(gammaEnergy * MeV);
   // fGammaGun->SetParticleEnergy(500 * keV);
 
   fGammaGun->GeneratePrimaryVertex(event);
@@ -253,7 +253,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   G4int myPDG = 22;
   analysisManager->FillNtupleDColumn(6, 0, rootEntry);
   analysisManager->FillNtupleIColumn(6, 1, myPDG);
-  analysisManager->FillNtupleDColumn(6, 2, gammaEnergy * keV);
+  analysisManager->FillNtupleDColumn(6, 2, gammaEnergy * MeV);
   analysisManager->FillNtupleDColumn(6, 3, -x1);
   analysisManager->FillNtupleDColumn(6, 4, -y1);
   analysisManager->FillNtupleDColumn(6, 5, -z1);
