@@ -11,6 +11,8 @@
 //   CopperCount -> CopperKineticEnergy
 //   PolyCount   -> PolyKineticEnergy
 //   TrackEdep   -> totalEdep
+//   Energy      -> boundaryEnergy  (flux on detector), total and split by
+//                  species: gamma (22), neutron (2112), e+/- (|11|), other
 //
 // The output file is named after the last subdirectory of the input path,
 // e.g.  dir = /data/sim/Gamma1MeV  ->  Gamma1MeV.root  (in the CWD).
@@ -98,9 +100,7 @@ void analyzeShielding(std::string dirPath)
    std::vector<std::unique_ptr<TChain>>          chains;   // must outlive the event loops
    std::vector<ROOT::RDF::RResultPtr<TH1D>>      results;
    std::vector<ROOT::RDF::RResultPtr<ULong64_t>> counts;   // lazy entry counters
-   chains.reserve(specs.size());
-   results.reserve(specs.size());
-   counts.reserve(specs.size());
+   std::vector<std::string>                      countLabels;
 
    for (const auto &s : specs) {
       auto chain = std::make_unique<TChain>(s.tree);
@@ -117,10 +117,64 @@ void analyzeShielding(std::string dirPath)
       // Book the entry count and the histogram on the same dataframe:
       // both are lazy, so they are filled in the SAME single event loop.
       counts.emplace_back(df.Count());
+      countLabels.emplace_back(s.tree);
 
       // <double>: all five branches are stored as doubles by G4AnalysisManager
       results.emplace_back(
          df.Histo1D<double>({hName.c_str(), s.title, nBins, edges.data()}, s.branch));
+      chains.emplace_back(std::move(chain));
+   }
+
+   // ------------------------------------------------------------------
+   // 3b. Energy tree: boundaryEnergy = particle flux on the detector,
+   //     total and filtered by particle species (pdgID)
+   // ------------------------------------------------------------------
+   {
+      auto chain = std::make_unique<TChain>("Energy");
+      const int nFiles = chain->Add(pattern.c_str());
+      if (nFiles == 0) {
+         std::cerr << "ERROR: no files match " << pattern << '\n';
+         return;
+      }
+      std::cout << "Tree Energy: chained " << nFiles << " file(s)\n";
+
+      ROOT::RDataFrame df(*chain);
+      counts.emplace_back(df.Count());
+      countLabels.emplace_back("Energy");
+
+      // All species combined
+      results.emplace_back(df.Histo1D<double>(
+         {"h_boundaryEnergy",
+          "Kinetic energy of particles entering the detector;E [MeV];Entries",
+          nBins, edges.data()},
+         "boundaryEnergy"));
+
+      // Per-species filters (pdgID is an int column).
+      // Filtered nodes share the SAME dataframe, so all species histograms
+      // are still filled in one single event loop over the Energy chain.
+      struct SpeciesCut {
+         const char *suffix;
+         const char *label;
+         bool (*pass)(int);
+      };
+      const std::vector<SpeciesCut> species = {
+         {"gamma",    "Gammas",             [](int p) { return p == 22; }},
+         {"neutron",  "Neutrons",           [](int p) { return p == 2112; }},
+         {"electron", "Electrons/positrons",[](int p) { return p == 11 || p == -11; }},
+         {"other",    "Other particles",    [](int p) { return p != 22 && p != 2112 &&
+                                                               p != 11 && p != -11; }},
+      };
+
+      for (const auto &sp : species) {
+         const std::string hName  = std::string("h_boundaryEnergy_") + sp.suffix;
+         const std::string hTitle = std::string(sp.label) +
+            " entering the detector;E [MeV];Entries";
+         results.emplace_back(
+            df.Filter(sp.pass, {"pdgID"})
+              .Histo1D<double>({hName.c_str(), hTitle.c_str(), nBins, edges.data()},
+                               "boundaryEnergy"));
+      }
+
       chains.emplace_back(std::move(chain));
    }
 
@@ -138,8 +192,8 @@ void analyzeShielding(std::string dirPath)
 
    // Total number of entries processed per tree (from RDataFrame itself)
    ULong64_t grandTotal = 0;
-   for (size_t i = 0; i < specs.size(); ++i) {
-      std::cout << "Tree " << specs[i].tree << ": " << *counts[i]
+   for (size_t i = 0; i < counts.size(); ++i) {
+      std::cout << "Tree " << countLabels[i] << ": " << *counts[i]
                 << " total entries\n";
       grandTotal += *counts[i];
    }
