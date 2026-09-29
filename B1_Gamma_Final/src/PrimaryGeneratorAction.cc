@@ -62,9 +62,9 @@ namespace B1
 
     auto particleTable = G4ParticleTable::GetParticleTable();
 
-    // fGammaGun->SetParticleDefinition(particleTable->FindParticle("gamma"));
+    fGammaGun->SetParticleDefinition(particleTable->FindParticle("gamma"));
     
-    fGammaGun->SetParticleDefinition(particleTable->FindParticle("neutron"));
+    //fGammaGun->SetParticleDefinition(particleTable->FindParticle("neutron"));
     // G4int myPDG = 2112;
 
 
@@ -250,8 +250,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
    auto analysisManager =
         G4AnalysisManager::Instance();
       
-  // G4int myPDG = 22;
-  G4int myPDG = 2112;
+  G4int myPDG = 22;
+  //G4int myPDG = 2112;
+  /*
   analysisManager->FillNtupleDColumn(6, 0, rootEntry);
   analysisManager->FillNtupleIColumn(6, 1, myPDG);
   analysisManager->FillNtupleDColumn(6, 2, gammaEnergy * MeV);
@@ -259,7 +260,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* event)
   analysisManager->FillNtupleDColumn(6, 4, -y1);
   analysisManager->FillNtupleDColumn(6, 5, -z1);
   analysisManager->AddNtupleRow(6);
-
+*/
 
   //fNeutronGun->SetParticlePosition(pos2);
   //fNeutronGun->SetParticleMomentumDirection(dir2);

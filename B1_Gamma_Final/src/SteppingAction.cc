@@ -95,7 +95,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
 
 
 
-    if (preVol && postVol)
+   /* if (preVol && postVol)
     {
       if(preVol->GetLogicalVolume() != logicHdpeBox &&
         postVol->GetLogicalVolume() == logicHdpeBox)
@@ -190,7 +190,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
     }
 
 
-
+*/
     if(preVol && postVol)
     {
       if(preVol->GetLogicalVolume() != fScoringVolume &&
@@ -203,27 +203,28 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
             G4ThreeVector pos = track->GetPosition();
             G4ThreeVector dir = track->GetMomentumDirection();
 
+            /// put the Row number 4 when you want to fill all the trees. 
+	    // If this is the only tree to be filled, please use the row of 0
+            analysisManager->FillNtupleDColumn(0,0,rootEntry);
+            analysisManager->FillNtupleIColumn(0,1,trackID);
+            analysisManager->FillNtupleIColumn(0,2,pdgID);
+            analysisManager->FillNtupleIColumn(0,3,parentID);
+            analysisManager->FillNtupleDColumn(0,4,boundaryEnergy);
+            analysisManager->FillNtupleDColumn(0,5,pos.x()/m);
+            analysisManager->FillNtupleDColumn(0,6,pos.y()/m);
+            analysisManager->FillNtupleDColumn(0,7,pos.z()/m);
+            analysisManager->FillNtupleDColumn(0,8,dir.x());
+            analysisManager->FillNtupleDColumn(0,9,dir.y());
+            analysisManager->FillNtupleDColumn(0,10,dir.z());
 
-            analysisManager->FillNtupleDColumn(4,0,rootEntry);
-            analysisManager->FillNtupleIColumn(4,1,trackID);
-            analysisManager->FillNtupleIColumn(4,2,pdgID);
-            analysisManager->FillNtupleIColumn(4,3,parentID);
-            analysisManager->FillNtupleDColumn(4,4,boundaryEnergy);
-            analysisManager->FillNtupleDColumn(4,5,pos.x()/m);
-            analysisManager->FillNtupleDColumn(4,6,pos.y()/m);
-            analysisManager->FillNtupleDColumn(4,7,pos.z()/m);
-            analysisManager->FillNtupleDColumn(4,8,dir.x());
-            analysisManager->FillNtupleDColumn(4,9,dir.y());
-            analysisManager->FillNtupleDColumn(4,10,dir.z());
-
-            analysisManager->AddNtupleRow(4);
+            analysisManager->AddNtupleRow(0);
         }
 
       }
 
     }
 
-
+/*
     if (preVol && preVol->GetLogicalVolume()==fScoringVolume)
     {
       G4double edepStep = step->GetTotalEnergyDeposit();
@@ -237,7 +238,7 @@ void SteppingAction::UserSteppingAction(const G4Step* step)
       }
 
     }
-
+*/
   }
 
 }

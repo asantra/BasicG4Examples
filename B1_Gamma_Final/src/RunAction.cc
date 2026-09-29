@@ -83,7 +83,7 @@ RunAction::RunAction()
   // Creating ntuple
   //
 
-
+/*
 
   analysisManager->CreateNtuple("HdpeCount", "Interactions at HDPE");
   analysisManager->CreateNtupleDColumn("eventID");
@@ -121,7 +121,7 @@ RunAction::RunAction()
   analysisManager->CreateNtupleDColumn("PolyKineticEnergy");
 
   analysisManager->FinishNtuple();
-
+*/
 
   analysisManager->CreateNtuple("Energy", "Gamma Interactions");
 
@@ -154,7 +154,7 @@ RunAction::RunAction()
   analysisManager->FinishNtuple();
 
 */
-
+/*
   analysisManager->CreateNtuple("TrackEdep","Energy deposited by track");
   analysisManager->CreateNtupleDColumn("eventID");
   analysisManager->CreateNtupleIColumn("trackID");
@@ -174,7 +174,7 @@ RunAction::RunAction()
   analysisManager->CreateNtupleDColumn("zDir"); 
 
   analysisManager->FinishNtuple();
-
+*/
 }
 
 
